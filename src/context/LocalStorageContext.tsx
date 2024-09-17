@@ -7,6 +7,11 @@ export interface LocalStorageContextType {
   removeFromLocalStorage: (key: string) => void;
   removeOneFromLocalStorage: (key: string, id: string | number) => void;
   archiveTodoFromLocalStorage: (key: string, id: string | number) => void;
+  updateDataFromLocalStorage: (
+    key: string,
+    id: string | number,
+    newValue: Partial<Todo>
+  ) => void;
 }
 
 interface LocalStorageProviderProps {
@@ -89,6 +94,22 @@ export const LocalStorageProvider: React.FC<LocalStorageProviderProps> = ({
     }
   };
 
+  const updateDataFromLocalStorage = (
+    key: string,
+    id: string | number,
+    newValue: Partial<Todo>
+  ): void => {
+    const existingData = getFromLocalStorage(key);
+    if (existingData) {
+      const updateData = existingData?.map((item) => {
+        return item.id === id ? { ...item, ...newValue } : item;
+      });
+
+      localStorage.setItem(key, JSON.stringify(updateData));
+      setStoredData(updateData);
+    }
+  };
+
   useEffect(() => {
     // Kamu bisa memuat data dari localStorage saat komponen pertama kali dimuat, jika diperlukan
   }, []);
@@ -102,6 +123,7 @@ export const LocalStorageProvider: React.FC<LocalStorageProviderProps> = ({
         removeFromLocalStorage,
         removeOneFromLocalStorage,
         archiveTodoFromLocalStorage,
+        updateDataFromLocalStorage,
       }}
     >
       {children}
