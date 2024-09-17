@@ -1,9 +1,13 @@
 import RootLayout from '../layouts/RootLayout';
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { LocalStorageKey } from '../config/app';
 import TodoItemContainer from '../components/ui/todo/TodoItemContainer';
 import TodoInput from '../components/ui/todo/TodoInput';
 import toastNotify from '../utils/toastNotify';
+import TodoButton from '../components/ui/todo/TodoButton';
+
+type ButtonValues = 'all' | 'completed' | 'uncompleted';
 
 export default function App() {
   const {
@@ -13,9 +17,11 @@ export default function App() {
   } = useLocalStorage();
   const [todosData, setTodosData] = useState<Todo[] | null>(null);
 
+  const [values, setValues] = useState<ButtonValues>('all');
+
   useEffect(() => {
     const getDataFromLocalStorage = () => {
-      const data = getFromLocalStorage('my-todolist-v2');
+      const data = getFromLocalStorage(LocalStorageKey);
       const result =
         data &&
         [...data].sort((a, b) => b.insertedAt.localeCompare(a.insertedAt));
@@ -28,7 +34,7 @@ export default function App() {
   const onDeleteTodoHandler: (todoId: string | number) => void = (
     todoId: string | number
   ) => {
-    removeOneFromLocalStorage('my-todolist-v2', todoId);
+    removeOneFromLocalStorage(LocalStorageKey, todoId);
     toastNotify('top-right', 'dark', 'success', 'Berhasil dihapus');
   };
 
@@ -43,8 +49,16 @@ export default function App() {
       toastNotify('top-right', 'dark', 'info', 'Daftar tugas diselesaikan!');
     }
 
-    archiveTodoFromLocalStorage('my-todolist-v2', todoId);
+    archiveTodoFromLocalStorage(LocalStorageKey, todoId);
   };
+
+  if (!todosData) return null;
+  const todosFiltered =
+    values === 'completed'
+      ? todosData?.filter((todo) => todo.completed === 'completed')
+      : values === 'uncompleted'
+      ? todosData?.filter((todo) => todo.completed === 'uncompleted')
+      : todosData;
 
   return (
     <>
@@ -52,8 +66,10 @@ export default function App() {
         <div className="app-todolist-container">
           <TodoInput />
 
+          <TodoButton values={values} setValues={setValues} />
+
           <TodoItemContainer
-            todos={todosData}
+            todos={todosFiltered}
             onDelete={onDeleteTodoHandler}
             onArchive={onArchiveTodoHandler}
           />

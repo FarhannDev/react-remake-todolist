@@ -100,3 +100,10 @@ body {
   line-height: 26px;
   text-align: start;
 }
+
+.app-todolist-actionbutton {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
