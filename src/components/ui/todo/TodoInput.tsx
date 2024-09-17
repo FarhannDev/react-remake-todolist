@@ -9,12 +9,7 @@ import toastNotify from '../../../utils/toastNotify';
 type IFormInput = { title: string; titleRequired: string };
 
 const TodoInput: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<IFormInput>();
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
 
   const { saveToLocalStorage } = useLocalStorage();
 
@@ -49,9 +44,12 @@ const TodoInput: React.FC = () => {
             className="app-todolist-input-control"
             contentEditable
             autoComplete="off"
-            {...register('title', { required: true })}
+            {...register('title', {
+              required: true,
+              minLength: 6,
+              maxLength: 50,
+            })}
           />
-          {errors.title && <span>This field is required</span>}
         </Form.Group>
       </Form>
     </div>

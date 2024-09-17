@@ -7,7 +7,7 @@ type TodoButtonProps = {
   setValues: React.Dispatch<React.SetStateAction<ButtonValues>>;
 };
 
-const TodoButton: React.FC<TodoButtonProps> = ({ setValues }) => {
+const TodoButton: React.FC<TodoButtonProps> = ({ setValues, values }) => {
   const onButtonHandler = (newValue: ButtonValues): void => {
     setValues(newValue);
   };
@@ -17,7 +17,9 @@ const TodoButton: React.FC<TodoButtonProps> = ({ setValues }) => {
         <button
           onClick={() => onButtonHandler('all')}
           type="button"
-          className="btn btn-md btn-outline-dark rounded text-white"
+          className={`btn btn-md ${
+            values === 'all' && 'btn-dark'
+          } btn-outline-dark rounded text-white`}
           title="Semua"
         >
           Semua
@@ -25,7 +27,9 @@ const TodoButton: React.FC<TodoButtonProps> = ({ setValues }) => {
         <button
           onClick={() => onButtonHandler('completed')}
           type="button"
-          className="btn btn-md btn-outline-dark rounded text-white"
+          className={`btn btn-md ${
+            values === 'completed' && 'btn-dark'
+          } btn-outline-dark rounded text-white`}
           title="Diselesaikan"
         >
           Selesai
@@ -33,7 +37,9 @@ const TodoButton: React.FC<TodoButtonProps> = ({ setValues }) => {
         <button
           onClick={() => onButtonHandler('uncompleted')}
           type="button"
-          className="btn btn-md btn-outline-dark rounded text-white"
+          className={`btn btn-md ${
+            values === 'uncompleted' && 'btn-dark'
+          } btn-outline-dark rounded text-white`}
           title="Belum Selesai"
         >
           Belum Selesai
