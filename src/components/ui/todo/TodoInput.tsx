@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import { nanoid } from 'nanoid';
 import toastNotify from '../../../utils/toastNotify';
+import { LocalStorageKey } from '../../../config/app';
 
 type IFormInput = { title: string; titleRequired: string };
 
@@ -22,7 +23,7 @@ const TodoInput: React.FC = () => {
       insertedAt: new Date().toISOString(),
     };
 
-    saveToLocalStorage('my-todolist-v2', newValue);
+    saveToLocalStorage(LocalStorageKey, newValue);
 
     toastNotify(
       'top-right',
