@@ -107,3 +107,28 @@ body {
   flex-wrap: wrap;
   gap: 16px;
 }
+
+.app-todolist-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 8px;
+  margin: 13px auto;
+}
+.app-todolist-empty__image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  object-position: center;
+  width: 450px;
+}
+.app-todolist-empty__text {
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  text-transform: capitalize;
+  padding-top: 13px;
+}
